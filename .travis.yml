@@ -12,4 +12,5 @@ before_install:
 
 script:
   - bash ./host/enable_autoupdate.sh
+  - cd docker/
   - bash ./docker/docker_build.sh
