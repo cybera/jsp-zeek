@@ -1,0 +1,23 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eno1:
+      dhcp4: no
+    enp101s0f0np0:
+      dhcp4: no
+    enp101s0f1np1:
+      dhcp4: no
+    enp179s0f0np0:
+      dhcp4: no
+    enp179s0f1np1:
+      dhcp4: no
+  bridges:
+    br0:
+      dhcp4: no
+      interfaces:
+        - eno1
+        - enp101s0f0np0
+        - enp101s0f1np1
+        - enp179s0f0np0
+        - enp179s0f1np1
