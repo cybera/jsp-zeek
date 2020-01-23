@@ -1,0 +1,8 @@
+[Unit]
+Description=ethtool script
+
+[Service]
+ExecStart=/usr/local/sbin/ethtool.sh
+
+[Install]
+WantedBy=multi-user.target

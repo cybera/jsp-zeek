@@ -7,8 +7,11 @@ sudo apt install -y bridge-utils
 sudo cp host/60-zeek-bridge.yaml /etc/netplan/60-zeek-bridge.yaml
 sudo netplan apply
 
-# Disable NIC features
-for i in rx tx sg tso ufo gso gro lro; do ethtool -K eno1 $i off; done
+# Disable NIC offload features
+sudo cp host/ethtool.service /etc/systemd/system/ethtool.service
+sudo cp host/ethtool.sh /usr/local/sbin/ethtool.sh
+sudo systemctl enable ethtool
+sudo systemctl start ethtool
 
 # Enable auto-updates
 ./host/enable_autoupdate.sh
