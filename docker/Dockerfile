@@ -48,7 +48,7 @@ RUN zkg autoconfig \
 
 COPY files/etc/* /opt/zeek/etc/
 COPY files/init.sh /init.sh
-COPY files/local.zeek /opt/zeek/share/zeek/site/local.zeek
+COPY files/local.zeek* /opt/zeek/share/zeek/site/
 
 VOLUME /opt/zeek/logs
 VOLUME /opt/zeek/spool

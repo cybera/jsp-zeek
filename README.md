@@ -11,10 +11,14 @@ Install Ubuntu 18.04 with LVM volumes
 
 ### Interfaces
 - eno2 for OS management (SSH, etc.)
-- the other NICs will be setup in a bridge for Zeek to consume
+- the other NICs (eno1 and fibre ports) will be setup in a bridge for Zeek to consume
 
-### Storage (optional)
-The remaining SSD storage is used for Docker containers and images.
+If this needs to be changed, the `host/60-zeek-bridge.yaml` file can be modified to suit your needs.
+
+### Storage (optional, but highly recommended)
+The remaining SSD storage can be used for Docker containers, images, and volumes. Keeping Docker storage on their own partition
+means Docker can't starve the host operating system's root partition of storage.
+
 To create an LVM partition for docker :
 
 ```bash
@@ -65,11 +69,38 @@ This will:
 ```
 
 ## Run
-Ensure the `INTERFACE` variable in `docker_run.sh` is changed to the interface being analyzed
-
 ```bash
 ./docker_run.sh
 ```
+
+## Logging JSON
+Add the following line to docker/files/local.zeek.append and rebuild container
+```
+redef LogAscii::use_json = T;
+```
+
+## Adding additional Root CA(s)
+Zeek uses its own root CA store based on [Mozilla's](https://docs.zeek.org/en/stable/scripts/base/protocols/ssl/mozilla-ca-list.zeek.html).
+This list can be appended to with your own root CAs. You might want to do this if you have your own internal CA, and want Zeek to properly validate certificates signed by it.
+
+First, get the subject of the cert then convert to hex format:
+```bash
+# Get subject
+$ openssl x509 -in new-ca.crt -subject -noout
+
+# Convert to hex
+$ openssl x509 -in new-ca.crt -inform pem -outform der | hexdump -v -e '1/1 "\\\x"' -e '1/1 "%02X"'
+```
+
+Append the following to docker/files/local.zeek.append (replace %SUBJECT% and %HEXCERT%):
+
+```
+redef SSL::root_certs += {
+        ["%SUBJECT%"] = "%HEXCERT%",
+};
+```
+
+You can do this with as many certificates as you need.
 
 ## Debug
 If you need to get shell access within the Zeek container, use the following:
