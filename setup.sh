@@ -7,6 +7,12 @@ sudo apt install -y bridge-utils
 sudo cp host/60-zeek-bridge.yaml /etc/netplan/60-zeek-bridge.yaml
 sudo netplan apply
 
+# Setup firewall: only allow SSH inbound
+sudo ufw allow ssh
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw enable
+
 # Disable NIC offload features
 sudo cp host/ethtool.service /etc/systemd/system/ethtool.service
 sudo cp host/ethtool.sh /usr/local/sbin/ethtool.sh
