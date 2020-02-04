@@ -13,7 +13,7 @@ Install Ubuntu 18.04 with LVM volumes
 - eno2 for OS management (SSH, etc.)
 - the other NICs (eno1 and fibre ports) will be setup in a bridge for Zeek to consume
 
-If this needs to be changed, the `host/60-zeek-bridge.yaml` file can be modified to suit your needs.
+If this needs to be changed, the `host/60-zeek-bridge.yaml` and `host/ethtool.sh` files can be modified to suit your needs.
 
 ### Storage (optional, but highly recommended)
 The remaining SSD storage can be used for Docker containers, images, and volumes. Keeping Docker storage on their own partition
@@ -74,10 +74,13 @@ This will:
 ```
 
 ## Logging JSON
-Add the following line to docker/files/local.zeek.append and rebuild container
+Add the following line to `docker/files/local.zeek.append` and rebuild container
 ```
 redef LogAscii::use_json = T;
 ```
+
+**Note**: Logging JSON breaks the ability to use the zeek command line tools such as `zeek-cut`. `jq` is the recommended
+tool when JSON is enabled.
 
 ## Adding additional Root CA(s)
 Zeek uses its own root CA store based on [Mozilla's](https://docs.zeek.org/en/stable/scripts/base/protocols/ssl/mozilla-ca-list.zeek.html).
@@ -92,7 +95,7 @@ $ openssl x509 -in new-ca.crt -subject -noout
 $ openssl x509 -in new-ca.crt -inform pem -outform der | hexdump -v -e '1/1 "\\\x"' -e '1/1 "%02X"'
 ```
 
-Append the following to docker/files/local.zeek.append (replace %SUBJECT% and %HEXCERT%):
+Append the following to `docker/files/local.zeek.append` (replace `%SUBJECT%` and `%HEXCERT%`):
 
 ```
 redef SSL::root_certs += {
@@ -100,7 +103,15 @@ redef SSL::root_certs += {
 };
 ```
 
-You can do this with as many certificates as you need.
+You can do this with as many certificates as you need:
+```
+redef SSL::root_certs += {
+        ["%SUBJECT1%"] = "%HEXCERT1%",
+        ["%SUBJECT2%"] = "%HEXCERT2%",
+        ["%SUBJECT3%"] = "%HEXCERT3%",
+};
+```
+
 
 ## Debug
 If you need to get shell access within the Zeek container, use the following:
