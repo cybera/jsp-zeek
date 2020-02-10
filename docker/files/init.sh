@@ -14,6 +14,6 @@ fi
 # Simple watchdog
 while true;
 do
-  pgrep -x zeek
-  sleep 5
+  sleep 300
+  /opt/zeek/bin/zeekctl cron
 done
