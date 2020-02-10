@@ -8,3 +8,5 @@ script:
   - bash ./host/enable_autoupdate.sh
   - cd docker/
   - bash ./docker_build.sh
+  - cd ../docker-syslog
+  - bash ./docker_build.sh

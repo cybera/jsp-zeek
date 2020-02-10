@@ -59,7 +59,7 @@ This will:
 * run Zeek Docker container
 
 
-# Docker
+# Zeek (Docker)
 ## Limitations
 * `AF_PACKET` is the only packet capturing method supported at this time. It makes installation simpler since it's built into the kernel, meaning there's no need to maintain a kernel module such as `PF_RING`.
 
@@ -123,3 +123,22 @@ docker exec -it zeek /bin/bash
 Docker volumes are used to store all archived and spooled Zeek logs. They can be viewed under these directories on the host:
 * `/var/lib/docker/volumes/zeek-logs`
 * `/var/lib/docker/volumes/zeek-spool`
+
+# Syslog Shipper (Optional) (Docker)
+We use rsyslog to ship our logs. We base the configuration on [this](https://blog.zeek.org/2015/09/analyzing-bro-logs-with-sagan.html) Zeek blog post.
+
+The run script will automatically map the Zeek log directories to ship them to the syslog collector.
+
+**Note** It's recommended to use the Zeek JSON log format with this feature
+
+## Build
+```bash
+cd docker-syslog
+./docker_build.sh
+```
+
+## Run
+```bash
+cd docker-syslog
+./docker_run.sh <ip or hostname of syslog server>
+```
