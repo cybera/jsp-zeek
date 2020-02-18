@@ -11,4 +11,4 @@ then
 fi
 
 docker rm -f ${CONTAINER_NAME} || true
-docker run -d --restart unless-stopped --env SYSLOG_HOST=${SYSLOG_HOST} -v rsyslog-spool:/var/spool/rsyslog -v zeek-spool:/opt/zeek/spool:ro --name ${CONTAINER_NAME} -it ${IMAGE_NAME}
+docker run -d --restart unless-stopped --cpuset-cpus=0 --env SYSLOG_HOST=${SYSLOG_HOST} -v rsyslog-spool:/var/spool/rsyslog -v zeek-spool:/opt/zeek/spool:ro --name ${CONTAINER_NAME} -it ${IMAGE_NAME}

@@ -54,6 +54,8 @@ Once the Ubuntu host has been setup, the following script can be used to deploy 
 
 This will:
 * enable automatic security updates
+* Enable firewall to only permit 22/tcp inbound (SSH)
+* Disable NIC offloading features
 * install Docker
 * build Zeek Docker container
 * run Zeek Docker container
@@ -127,7 +129,7 @@ Docker volumes are used to store all archived and spooled Zeek logs. They can be
 # Syslog Shipper (Optional) (Docker)
 We use rsyslog to ship our logs. We base the configuration on [this](https://blog.zeek.org/2015/09/analyzing-bro-logs-with-sagan.html) Zeek blog post.
 
-The run script will automatically map the Zeek log directories to ship them to the syslog collector.
+The run script will automatically map the Zeek log directories (Docker volumes) to ship them to the syslog collector.
 
 **Note** It's recommended to use the Zeek JSON log format with this feature
 
