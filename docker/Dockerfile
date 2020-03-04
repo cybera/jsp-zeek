@@ -42,7 +42,7 @@ ENV PATH $PATH:/opt/zeek/bin
 
 RUN zkg autoconfig \
     && zkg install --force \
-       bro-af_packet-plugin \
+       zeek-af_packet-plugin \
        zeek-sniffpass \
        zeek-httpattacks
 
