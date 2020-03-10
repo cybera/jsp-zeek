@@ -25,14 +25,13 @@ RUN apt update \
      geoip-database \
      swig \
      libpcap-dev \
-     linux-headers-$(uname -r) \
     && curl -sL https://www.zeek.org/downloads/zeek-${ZEEK_VERSION}.tar.gz \
       | tar zxvf - \
     && pip3 --no-cache-dir install zkg \
     # Compile Zeek
     && cd zeek-${ZEEK_VERSION} \
     && ./configure --prefix=/opt/zeek \
-    && make -j8 \
+    && make -j$(nproc) \
     && make install \
     # Cleanup
     && rm -rf /tmp/* \
@@ -40,18 +39,5 @@ RUN apt update \
 
 ENV PATH $PATH:/opt/zeek/bin
 
-RUN zkg autoconfig \
-    && zkg install --force \
-       zeek-af_packet-plugin \
-       zeek-sniffpass \
-       zeek-httpattacks
-
-COPY files/etc/* /opt/zeek/etc/
-COPY files/init.sh /init.sh
-COPY files/local.zeek* /opt/zeek/share/zeek/site/
-
 VOLUME /opt/zeek/logs
 VOLUME /opt/zeek/spool
-
-
-CMD ["/init.sh"]

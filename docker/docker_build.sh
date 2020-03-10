@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t zeek .
+docker build -f Dockerfile.run -t zeek .
