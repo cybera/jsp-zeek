@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 LABEL maintainer="security@cybera.ca"
 
-LABEL build_date="2020-02-03"
-ENV ZEEK_VERSION 3.1.0
+LABEL build_date="2020-03-10"
+ENV ZEEK_VERSION 3.1.1
 
 WORKDIR /tmp
 
