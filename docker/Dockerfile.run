@@ -3,7 +3,7 @@ FROM cybera/jsp-zeek
 WORKDIR /tmp
 
 RUN apt update \
-    && apt install linux-headers-$(uname -r) \
+    && apt install -y linux-headers-$(uname -r) \
     && zkg autoconfig \
     && zkg install --force \
        zeek-af_packet-plugin \
