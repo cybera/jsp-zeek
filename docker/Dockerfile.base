@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 LABEL maintainer="security@cybera.ca"
 
-LABEL build_date="2020-03-10"
+LABEL build_date="2020-03-21"
 ENV ZEEK_VERSION 3.1.1
 
 WORKDIR /tmp
@@ -25,7 +25,7 @@ RUN apt update \
      geoip-database \
      swig \
      libpcap-dev \
-    && curl -sL https://www.zeek.org/downloads/zeek-${ZEEK_VERSION}.tar.gz \
+    && curl -sL https://old.zeek.org/downloads/zeek-${ZEEK_VERSION}.tar.gz \
       | tar zxvf - \
     && pip3 --no-cache-dir install zkg \
     # Compile Zeek
