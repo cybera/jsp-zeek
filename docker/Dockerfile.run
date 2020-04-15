@@ -9,7 +9,7 @@ RUN apt update \
        zeek-af_packet-plugin \
        zeek-sniffpass \
        zeek-httpattacks \
-    cp /opt/zeek/share/zeek/site/local.zeek /opt/zeek/share/zeek/site/local.zeek.template \
+    && cp /opt/zeek/share/zeek/site/local.zeek /opt/zeek/share/zeek/site/local.zeek.template \
     # Cleanup
     && rm -rf /tmp/* \
     && rm -rf /var/lib/apt/lists/*
