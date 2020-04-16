@@ -9,7 +9,6 @@ RUN apt update \
        zeek-af_packet-plugin \
        zeek-sniffpass \
        zeek-httpattacks \
-    && cp /opt/zeek/share/zeek/site/local.zeek /opt/zeek/share/zeek/site/local.zeek.template \
     # Cleanup
     && rm -rf /tmp/* \
     && rm -rf /var/lib/apt/lists/*
@@ -17,6 +16,8 @@ RUN apt update \
 COPY files/etc/* /opt/zeek/etc/
 COPY files/init.sh /init.sh
 COPY files/local.zeek* /opt/zeek/share/zeek/site/
+
+RUN cp /opt/zeek/share/zeek/site/local.zeek /opt/zeek/share/zeek/site/local.zeek.template
 
 VOLUME /opt/zeek/logs
 VOLUME /opt/zeek/spool
