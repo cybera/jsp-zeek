@@ -38,3 +38,4 @@ RUN apt update \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PATH $PATH:/opt/zeek/bin
+ENV PYTHONPATH /opt/zeek/lib/zeekctl
